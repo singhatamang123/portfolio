@@ -4,6 +4,18 @@ import { motion, type Variants } from 'framer-motion';
 
 const projects = [
   {
+    title: 'Multiplayer Quiz Platform',
+    description:
+      'A real-time multiplayer quiz application featuring live leaderboards, fire streaks, and dynamic category selection for an engaging competitive experience.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Socket.io'],
+    github: 'https://github.com/singhatamang123/QuizMultiuser',
+    live: 'https://quiz-multiuser.vercel.app/',
+    category: 'Full Stack',
+    color: 'from-orange-500/20 to-red-500/10',
+    border: 'hover:border-orange-500/40',
+    icon: '🔥',
+  },
+  {
     title: 'Product Recommendation System',
     description:
       'An intelligent recommendation engine that suggests products based on user behaviour and purchase history using collaborative filtering and ML algorithms.',
