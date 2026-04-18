@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,7 +14,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
   title: "Singha Tamang | Frontend Developer",
   description: "I build fast, modern, and pixel-perfect web applications with clean code and beautiful interfaces.",
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     description: "I craft fast, modern, and responsive web experiences.",
     images: [
       {
-        url: "/singha.jpg",   // Your photo will be used as OG image
+        url: "/singha.jpg",
         width: 800,
         height: 600,
         alt: "Singha Tamang",
@@ -42,7 +43,15 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+
+        {/* Performance Monitoring */}
+        <SpeedInsights />
+
+        {/* Visitor Analytics */}
+        <Analytics />
+      </body>
     </html>
   );
 }
