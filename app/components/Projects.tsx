@@ -1,80 +1,48 @@
 'use client';
 
-import { motion, type Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import ProjectScrapbook from './ProjectScrapbook';
+import Magnetic from './Magnetic';
 
 const projects = [
   {
-    title: 'Multiplayer Quiz Platform',
+    title: 'Galli Maps',
     description:
-      'A real-time multiplayer quiz application featuring live leaderboards, fire streaks, and dynamic category selection for an engaging competitive experience.',
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Socket.io'],
-    github: 'https://github.com/singhatamang123/QuizMultiuser',
+      'A location-based service application with open-source map integration. Features real-time distance sorting and offline capabilities.',
+    tags: ['React Native', 'Leaflet', 'Node.js'],
+    github: 'https://github.com/singhatamang123/galli-maps',
+    live: null,
+    category: 'Mobile App',
+    color: 'from-vivid-cyan to-dopamine-blue',
+    border: 'hover:border-vivid-cyan',
+    icon: '📍',
+    sketch: '/galli_maps.png',
+  },
+  {
+    title: 'Tarka Quiz',
+    description:
+      'A fast-paced multiplayer quiz application with a unique fire-streak system and real-time leaderboards. High-performance gaming UI.',
+    tags: ['Next.js', 'Socket.io', 'Tailwind'],
+    github: 'https://github.com/singhatamang123/tarka-quiz',
     live: 'https://quiz-multiuser.vercel.app/',
-    category: 'Full Stack',
-    color: 'from-orange-500/20 to-red-500/10',
-    border: 'hover:border-orange-500/40',
-    icon: '🔥',
-  },
-  {
-    title: 'Product Recommendation System',
-    description:
-      'An intelligent recommendation engine that suggests products based on user behaviour and purchase history using collaborative filtering and ML algorithms.',
-    tags: ['Python', 'Machine Learning', 'Pandas', 'Scikit-learn'],
-    github: 'https://github.com/singhatamang123/FinalYearProjects',
-    live: null,
-    category: 'Machine Learning',
-    color: 'from-blue-500/20 to-cyan-500/10',
-    border: 'hover:border-blue-500/40',
-    icon: '🤖',
-  },
-  {
-    title: 'Big Mart Data Analysis',
-    description:
-      'Comprehensive data analysis and sales prediction for Big Mart outlets. Includes exploratory data analysis, feature engineering, and predictive modelling.',
-    tags: ['Python', 'Pandas', 'Matplotlib', 'Scikit-learn'],
-    github: 'https://github.com/singhatamang123/BigMartPrediction-',
-    live: null,
-    category: 'Data Analysis',
-    color: 'from-amber-500/20 to-orange-500/10',
-    border: 'hover:border-amber-500/40',
-    icon: '📊',
-  },
-  {
-    title: 'E-Commerce Platform',
-    description:
-      'A full-featured e-commerce web application with product listings, cart management, user authentication, and checkout flow.',
-    tags: ['React', 'Next.js', 'Tailwind CSS', 'TypeScript'],
-    github: 'https://github.com/singhatamang123/FinalYearProjects',
-    live: null,
-    category: 'Full Stack',
-    color: 'from-green-500/20 to-emerald-500/10',
-    border: 'hover:border-green-500/40',
-    icon: '🛒',
-  },
-  {
-    title: 'PeaceWindsNepal',
-    description:
-      'Official website for PeaceWindsNepal NGO — a non-profit organisation. Features donation info, project showcases, team profiles, and contact forms.',
-    tags: ['React', 'Next.js', 'Tailwind CSS'],
-    github: 'https://github.com/singhatamang123/PeaceWindsNepalFinal',
-    live: null,
-    category: 'NGO Website',
-    color: 'from-purple-500/20 to-violet-500/10',
-    border: 'hover:border-purple-500/40',
-    icon: '🕊️',
-  },
-  {
-    title: 'Free Gaming Platform',
-    description:
-      'A browser-based free gaming platform with multiple games, leaderboards, and user profiles. Built for performance and a seamless play experience.',
-    tags: ['React', 'JavaScript', 'CSS'],
-    github: null,
-    live: null,
     category: 'Web App',
-    color: 'from-red-500/20 to-pink-500/10',
-    border: 'hover:border-red-500/40',
-    icon: '🎮',
-    comingSoon: true,
+    color: 'from-sunset-orange to-electric-pink',
+    border: 'hover:border-sunset-orange',
+    icon: '🔥',
+    sketch: '/tarka_quiz.png',
+  },
+  {
+    title: 'AI Content Studio',
+    description:
+      'An AI-powered content generation suite for creators. Includes image generation, text optimization, and social media scheduling.',
+    tags: ['OpenAI', 'Next.js', 'PostgreSQL'],
+    github: 'https://github.com/singhatamang123/ai-content-studio',
+    live: null,
+    category: 'SaaS',
+    color: 'from-royal-purple to-electric-pink',
+    border: 'hover:border-royal-purple',
+    icon: '✨',
   },
   {
     title: 'Coffee Break',
@@ -84,125 +52,92 @@ const projects = [
     github: null,
     live: null,
     category: 'Website',
-    color: 'from-yellow-700/20 to-amber-800/10',
-    border: 'hover:border-yellow-700/40',
+    color: 'from-lime-green to-vivid-cyan',
+    border: 'hover:border-lime-green',
     icon: '☕',
     comingSoon: true,
   },
 ];
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.55, ease: 'easeOut' as const },
-  }),
-};
-
 export default function Projects() {
-  return (
-    <section id="projects" className="py-28 border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
+  return (
+    <section id="projects" className="py-32 bg-grain relative">
+      {/* Decorative chaotic lines */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-electric-pink -skew-y-2 z-0" />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -100 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-20"
         >
-          <p className="text-cyan-400 text-sm font-medium tracking-widest uppercase mb-3">What I&apos;ve built</p>
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">Featured Projects</h2>
-          <p className="text-white/40 mt-4 max-w-lg mx-auto text-base font-light">
-            A collection of projects ranging from data science to full-stack web development.
-          </p>
+          <h2 className="text-[12vw] lg:text-[10rem] font-display leading-[0.8] mb-4 text-black dark:text-white">
+            WORKS<span className="text-stroke text-black dark:text-white opacity-40">&amp;</span><br />
+            STUFF
+          </h2>
+          <div className="bg-lime-green border-4 border-black p-6 inline-block shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-1">
+            <p className="text-black font-black text-2xl uppercase tracking-tighter">
+              A collection of projects from data science to full-stack web dev.
+            </p>
+          </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8">
           {projects.map((project, i) => (
             <motion.div
               key={project.title}
               custom={i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-40px' }}
-              variants={cardVariants}
-              whileHover={{ y: -6 }}
-              className={`relative group bg-white/5 border border-white/10 ${project.border} rounded-3xl overflow-hidden transition-all duration-300 flex flex-col`}
+              initial={{ opacity: 0, y: 50, rotate: i % 2 === 0 ? -2 : 2 }}
+              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10, rotate: i % 2 === 0 ? 2 : -2 }}
+              onClick={() => !project.comingSoon && setSelectedProject(project)}
+              data-cursor="view"
+              data-cursor-label="CASE STUDY"
+              className={`layered-card p-0 flex flex-col group relative cursor-pointer ${i % 3 === 1 ? 'md:-mt-12' : i % 3 === 2 ? 'lg:-mt-24' : ''}`}
             >
-              {/* Card gradient top */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-40 pointer-events-none`} />
+              {/* Category Ribbon */}
+              <div className="absolute top-4 -right-4 bg-vivid-cyan border-2 border-black px-4 py-1 font-black text-xs uppercase z-20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-12">
+                {project.category}
+              </div>
 
-              <div className="relative z-10 p-6 flex flex-col flex-1">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <span className="text-xs font-medium tracking-widest uppercase text-white/40 mb-1 block">
-                      {project.category}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl">{project.icon}</span>
-                      <h3 className="text-lg font-semibold text-white leading-snug">{project.title}</h3>
-                    </div>
-                  </div>
+              <div className={`h-48 relative border-b-4 border-black bg-gradient-to-br ${project.color} flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500`}>
+                {project.icon}
+              </div>
+
+              <div className="p-8 bg-white dark:bg-zinc-900 flex-1 flex flex-col">
+                <div className="mb-4">
+                  <h3 className="text-3xl font-display font-black leading-none uppercase mb-2 text-black dark:text-white">
+                    {project.title}
+                  </h3>
                   {project.comingSoon && (
-                    <span className="flex-shrink-0 text-xs px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white/50 font-medium">
-                      Coming Soon
+                    <span className="bg-sunset-orange text-white px-3 py-1 text-xs font-black uppercase inline-block">
+                      COMING SOON
                     </span>
                   )}
                 </div>
 
-                {/* Description */}
-                <p className="text-sm text-white/55 leading-relaxed mb-5 flex-1" style={{ fontWeight: 300 }}>
+                <p className="font-heading text-lg text-black/60 dark:text-white/60 mb-8 leading-tight">
                   {project.description}
                 </p>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-10">
                   {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white/50 font-medium"
-                    >
+                    <span key={tag} className="px-3 py-1 border-2 border-black bg-white dark:bg-black text-black dark:text-white text-[10px] font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                {/* Actions */}
-                <div className="flex items-center gap-3 mt-auto">
-                  {project.github ? (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/30 text-sm text-white/80 hover:text-white transition-all"
-                    >
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                      </svg>
-                      GitHub
-                    </a>
-                  ) : (
-                    <span className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm text-white/25 cursor-not-allowed">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                      </svg>
-                      GitHub
-                    </span>
-                  )}
-
-                  {project.live ? (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 hover:border-blue-400/50 text-sm text-blue-400 hover:text-blue-300 transition-all"
-                    >
-                      Live →
-                    </a>
-                  ) : null}
+                <div className="mt-auto">
+                  <Magnetic strength={0.2}>
+                    <div className="w-full bg-black text-white p-3 text-center font-black uppercase text-sm border-2 border-black group-hover:bg-electric-pink transition-colors">
+                      VIEW SCRAPBOOK →
+                    </div>
+                  </Magnetic>
                 </div>
               </div>
             </motion.div>
@@ -210,26 +145,24 @@ export default function Projects() {
         </div>
 
         {/* View all on GitHub */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-center mt-12"
-        >
-          <a
+        <div className="mt-24 text-center">
+          <motion.a
             href="https://github.com/singhatamang123"
             target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/20 hover:border-white/50 rounded-2xl text-sm text-white/60 hover:text-white transition-all"
+            whileHover={{ scale: 1.05, rotate: -1 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block px-12 py-6 bg-sunset-orange text-white border-4 border-black font-display font-black text-2xl uppercase shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-            </svg>
-            View all on GitHub
-          </a>
-        </motion.div>
+            VIEW ALL REPOS ON GITHUB →
+          </motion.a>
+        </div>
       </div>
+
+      {/* Scrapbook Modal */}
+      <ProjectScrapbook
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }

@@ -77,47 +77,49 @@ const skills = [
   },
 ];
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.07, duration: 0.5, ease: 'easeOut' },
-  }),
-};
-
 export default function Skills() {
   return (
-    <section id="skills" className="py-28 border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+    <section id="skills" className="py-32 bg-white dark:bg-black border-y-8 border-black relative overflow-hidden">
+      {/* Background Text Marquee (Decorative) */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full pointer-events-none whitespace-nowrap opacity-5 select-none z-0">
+        <span className="text-[20rem] font-display font-black uppercase text-stroke">
+          SKILLS TECH SKILLS TECH SKILLS TECH SKILLS TECH
+        </span>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-20 text-center"
         >
-          <p className="text-blue-400 text-sm font-medium tracking-widest uppercase mb-3">What I work with</p>
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">Skills &amp; Technologies</h2>
+          <h2 className="text-[10vw] lg:text-[8rem] font-display leading-none mb-6 text-black dark:text-white">
+            TECH<span className="text-electric-pink">STACK</span>
+          </h2>
+          <div className="inline-block bg-vivid-cyan border-4 border-black px-6 py-2 rotate-1 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+            <p className="text-black font-black uppercase text-xl text-center">The tools I use to break the internet</p>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {skills.map((skill, i) => (
             <motion.div
               key={skill.name}
               custom={i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
-              variants={cardVariants}
-              whileHover={{ y: -8, scale: 1.03 }}
-              className="group bg-white/5 border border-white/10 hover:border-blue-500/30 hover:bg-white/8 p-8 rounded-3xl flex flex-col items-center gap-4 text-center transition-colors backdrop-blur-sm cursor-default"
+              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: i % 2 === 0 ? 2 : -2 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.1, rotate: 0, zIndex: 30 }}
+              className={`p-8 border-4 border-black flex flex-col items-center justify-center gap-6 transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1
+                ${i % 4 === 0 ? 'bg-lime-green' : i % 4 === 1 ? 'bg-electric-pink text-white' : i % 4 === 2 ? 'bg-vivid-cyan' : 'bg-sunset-orange text-white'}`}
             >
-              <span className={`${skill.color} transition-transform group-hover:scale-110 duration-300`}>
+              <div className="w-16 h-16 flex items-center justify-center filter drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
                 {skill.icon}
-              </span>
-              <p className="text-sm font-medium text-white/80">{skill.name}</p>
+              </div>
+              <p className="font-display font-black text-xl uppercase tracking-tighter text-center">
+                {skill.name}
+              </p>
             </motion.div>
           ))}
         </div>

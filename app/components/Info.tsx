@@ -43,46 +43,45 @@ const contactItems = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-28">
-      <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
-
+    <section id="contact" className="py-32 bg-lime-green border-t-8 border-black bg-grain">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          className="mb-20"
         >
-          <p className="text-purple-400 text-sm font-medium tracking-widest uppercase mb-3">Get in touch</p>
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4">
-            Let&apos;s create something<br />
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              extraordinary
-            </span>
+          <h2 className="text-[12vw] lg:text-[10rem] font-display leading-[0.8] mb-8 text-black uppercase">
+            GET IN<br/>
+            <span className="text-white text-stroke">TOUCH</span>
           </h2>
-          <p className="text-white/40 max-w-md mx-auto text-base font-light mb-14">
-            Currently open to exciting opportunities and collaborations. Feel free to reach out!
-          </p>
+          <div className="bg-black text-white p-6 inline-block rotate-1 shadow-[10px_10px_0px_0px_rgba(255,0,255,0.8)]">
+            <p className="font-heading text-2xl md:text-3xl uppercase font-black">
+              Let&apos;s create something extraordinary together.
+            </p>
+          </div>
         </motion.div>
 
         {/* Contact Cards */}
-        <div className="grid sm:grid-cols-3 gap-4 mb-12">
+        <div className="grid sm:grid-cols-3 gap-8 mb-20">
           {contactItems.map((item, i) => (
             <motion.a
               key={item.label}
               href={item.href}
               target={item.href.startsWith('http') ? '_blank' : undefined}
               rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className={`flex flex-col items-center gap-3 p-6 rounded-2xl border ${item.bg} transition-all`}
+              whileHover={{ scale: 1.05, rotate: i % 2 === 0 ? -2 : 2 }}
+              className="bg-white border-4 border-black p-10 flex flex-col items-center gap-6 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all group"
             >
-              <span className={`${item.color}`}>{item.icon}</span>
+              <div className={`p-4 bg-black text-white group-hover:bg-electric-pink transition-colors ${item.color}`}>
+                {item.icon}
+              </div>
               <div>
-                <p className="text-xs text-white/40 tracking-widest uppercase mb-1">{item.label}</p>
-                <p className={`text-sm font-medium ${item.color}`}>{item.value}</p>
+                <p className="text-xs text-black/40 font-black uppercase mb-2 tracking-widest">{item.label}</p>
+                <p className="text-xl font-display font-black text-black break-all">{item.value}</p>
               </div>
             </motion.a>
           ))}
@@ -90,22 +89,23 @@ export default function Contact() {
 
         {/* Primary CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          className="relative"
         >
           <motion.a
             href="mailto:singhatamang456@gmail.com"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-block px-12 py-5 bg-white text-black rounded-2xl font-medium text-base hover:bg-slate-100 transition-all"
+            whileHover={{ scale: 1.1, rotate: -1 }}
+            className="inline-block px-16 py-8 bg-electric-pink text-white border-8 border-black font-display font-black text-4xl uppercase shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] hover:bg-black transition-all"
           >
-            Say Hello →
+            SAY HELLO →
           </motion.a>
+          
+          {/* Floating accent */}
+          <div className="absolute -bottom-10 right-1/4 w-32 h-32 bg-vivid-cyan border-4 border-black rotate-45 -z-10 animate-bounce" />
         </motion.div>
-
       </div>
     </section>
   );
-}
+}

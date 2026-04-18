@@ -1,0 +1,116 @@
+'use client';
+
+import { useEffect, useState, useRef } from 'react';
+import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
+
+// Base64 encoded short 'pop' sound (kept exactly the same)
+const POP_SOUND = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAD//wEAAAAA';
+
+export default function CustomCursor() {
+  const [cursorState, setCursorState] = useState<{ type: string; label: string }>({ type: 'default', label: '' });
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const springConfig = { damping: 20, stiffness: 180 }; // Slightly snappier for energetic feel
+
+  const smoothX = useSpring(cursorX, springConfig);
+  const smoothY = useSpring(cursorY, springConfig);
+
+  useEffect(() => {
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
+
+    const handleHover = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const hoverEl = target.closest('[data-cursor]');
+
+      if (hoverEl) {
+        const type = hoverEl.getAttribute('data-cursor') || 'hover';
+        const label = hoverEl.getAttribute('data-cursor-label') || '';
+        setCursorState({ type, label });
+      } else if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button')) {
+        setCursorState({ type: 'hover', label: '' });
+      } else {
+        setCursorState({ type: 'default', label: '' });
+      }
+    };
+
+    const handleClick = () => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(() => { });
+      }
+    };
+
+    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mouseover', handleHover);
+    window.addEventListener('mousedown', handleClick);
+
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mouseover', handleHover);
+      window.removeEventListener('mousedown', handleClick);
+    };
+  }, [cursorX, cursorY]);
+
+  return (
+    <>
+      <audio ref={audioRef} src={POP_SOUND} preload="auto" />
+
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference flex items-center justify-center rounded-full overflow-hidden border-2 border-white/80 shadow-[0_0_30px_#ffffff,0_0_60px_#ff00ff]"
+        style={{
+          translateX: smoothX,
+          translateY: smoothY,
+          x: '-50%',
+          y: '-50%',
+          width: 44,   // Slightly bigger for more presence
+          height: 44,
+        }}
+        animate={{
+          scale: cursorState.type !== 'default' ? 2.8 : 1.1,
+          backgroundColor:
+            cursorState.type === 'hover'
+              ? '#FF00FF' // Hot magenta
+              : cursorState.type !== 'default'
+                ? '#00FFFF' // Electric cyan
+                : '#FF00AA', // Vibrant hot pink base
+          borderColor: cursorState.type === 'hover' ? '#00FFAA' : '#FFFFFF',
+          boxShadow: cursorState.type !== 'default'
+            ? '0 0 40px #FF00FF, 0 0 80px #00FFFF'
+            : '0 0 25px #FF00AA',
+        }}
+        transition={{ type: 'spring', bounce: 0.3 }}
+      >
+        {/* Inner chaotic layer for maximalist texture */}
+        <motion.div
+          className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-300 via-pink-500 to-cyan-400 opacity-70 mix-blend-overlay"
+          animate={{
+            rotate: cursorState.type !== 'default' ? 360 : 0,
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {/* Subtle grain/noise overlay simulation via CSS (add real noise texture if you have one) */}
+        <div className="absolute inset-0 rounded-full bg-[radial-gradient(#ffffff_0.8px,transparent_0.8px)] [background-size:4px_4px] opacity-20 pointer-events-none" />
+
+        <AnimatePresence mode="wait">
+          {cursorState.label && (
+            <motion.span
+              key={cursorState.label}
+              initial={{ opacity: 0, scale: 0.6, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.6, y: -12 }}
+              className="text-[9px] font-black uppercase tracking-[2px] text-black text-center leading-none px-2 drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)]"
+            >
+              {cursorState.label}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </>
+  );
+}
