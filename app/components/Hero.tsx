@@ -70,7 +70,7 @@ export default function Hero() {
         <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] bg-electric-pink opacity-20 blur-[150px] animate-float" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-lime-green opacity-20 blur-[120px]" />
         <div className="absolute top-[20%] left-[40%] w-[30%] h-[30%] bg-vivid-cyan opacity-20 blur-[100px] animate-pulse" />
-        
+
         {/* Geometric Accents */}
         <div className="absolute top-1/4 right-10 w-64 h-64 border-8 border-royal-purple/20 rotate-12" />
         <div className="absolute bottom-1/4 left-10 w-48 h-48 border-8 border-sunset-orange/20 -rotate-12" />
@@ -100,7 +100,16 @@ export default function Hero() {
             </span>
             <span className="block font-display text-[15vw] lg:text-[9rem] tracking-tighter text-black dark:text-white">
               Hi, I&apos;m<br />
-              <span className="bg-electric-pink text-white px-4 inline-block -rotate-2 transform">Singha</span>
+              <span className="relative inline-block">
+                <span className="bg-electric-pink text-white px-4 inline-block -rotate-2 transform">Singha</span>
+                <motion.span
+                  className="absolute -bottom-2 left-4 right-4 h-2 bg-lime-green"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: [0, 1, 0.8, 1] }}
+                  transition={{ delay: 1, duration: 0.6, ease: 'backOut' }}
+                  style={{ originX: 0 }}
+                />
+              </span>
             </span>
           </motion.h1>
 
@@ -126,16 +135,16 @@ export default function Hero() {
             className="flex flex-wrap gap-4 mb-12"
           >
             <Magnetic strength={0.3}>
-              <motion.a 
-                href="#projects" 
+              <motion.button
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
                 data-cursor="view"
                 data-cursor-label="GO! →"
-                whileHover={{ scale: 1.05, rotate: -1 }} 
+                whileHover={{ scale: 1.05, rotate: -1 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-10 py-5 bg-black text-white font-black rounded-none border-4 border-black md:hover:bg-vivid-cyan md:hover:text-black transition-all text-lg shadow-[8px_8px_0px_0px_rgba(0,255,255,0.5)] flex items-center"
               >
                 VIEW PROJECTS →
-              </motion.a>
+              </motion.button>
             </Magnetic>
 
             <Magnetic strength={0.3}>
@@ -160,7 +169,7 @@ export default function Hero() {
             className="flex flex-wrap gap-3"
           >
             {['Next.js', 'React', 'TypeScript', 'Tailwind', 'Python', 'Figma'].map((tech, i) => (
-              <span key={tech} 
+              <span key={tech}
                 className={`px-4 py-2 border-2 border-black font-black text-xs uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
                 ${i % 3 === 0 ? 'bg-vivid-cyan' : i % 3 === 1 ? 'bg-electric-pink text-white' : 'bg-lime-green'}`}
               >
@@ -174,43 +183,42 @@ export default function Hero() {
         <div className="flex justify-center lg:justify-end relative">
           {/* Decorative background element */}
           <div className="absolute inset-0 bg-royal-purple rotate-6 transform scale-105 translate-x-4 translate-y-4" />
-          
+
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: 5 }} 
+            initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
             animate={{ opacity: 1, scale: 1, rotate: -2 }}
             transition={{ duration: 0.8, ease: 'backOut' }}
             className="relative overflow-hidden border-8 border-black shadow-[20px_20px_0px_0px_rgba(255,0,255,0.5)] group"
             style={{ width: 380, height: 480 }}
           >
-            <Image 
-              src="/singha.jpg" 
-              alt="Singha" 
-              fill 
+            <Image
+              src="/singha.jpg"
+              alt="Singha"
+              fill
               sizes="380px"
-              className="object-cover object-top grayscale md:group-hover:grayscale-0 transition-all duration-200" 
-              priority 
+              className="object-cover object-top grayscale md:group-hover:grayscale-0 transition-all duration-200"
+              priority
             />
             {/* Overlay */}
             <div className="absolute inset-0 bg-electric-pink/20 mix-blend-multiply md:group-hover:opacity-0 transition-opacity" />
-            
-            {/* Badges */}
-            <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-2 z-20">
-              <div className="bg-black text-white px-4 py-1 text-2xl font-black uppercase inline-block self-start">
-                3+ YEARS EXP.
-              </div>
-              <div className="bg-lime-green text-black px-4 py-1 text-2xl font-black uppercase inline-block self-start shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                6+ PROJECTS
+
+            {/* Dev Vibe Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-5 z-20">
+              <p className="font-mono text-lime-green text-xs mb-2 opacity-80">$ git commit -m "building the future"</p>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-lime-green animate-ping" />
+                <span className="text-white font-black text-xs uppercase tracking-widest">ALWAYS CODING · ALWAYS HUSTLING</span>
               </div>
             </div>
           </motion.div>
 
           {/* Open to Work floating badge */}
-          <motion.div 
+          <motion.div
             animate={{ rotate: [0, 10, -10, 0] }}
             transition={{ repeat: Infinity, duration: 4 }}
             className="absolute -top-10 -right-4 z-30 bg-vivid-cyan border-4 border-black p-4 rotate-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
           >
-            <p className="text-black font-black text-xl uppercase leading-none text-center">OPEN TO<br/>WORK!</p>
+            <p className="text-black font-black text-xl uppercase leading-none text-center">OPEN TO<br />WORK!</p>
           </motion.div>
         </div>
 

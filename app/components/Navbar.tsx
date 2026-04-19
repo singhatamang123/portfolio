@@ -26,6 +26,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -64,8 +69,8 @@ export default function Navbar() {
           <div className={`flex items-center justify-between px-6 h-20 bg-white dark:bg-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ${scrolled ? 'scale-95' : 'scale-100'}`}>
             
             {/* Logo */}
-            <motion.a
-              href="#"
+            <motion.button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               whileHover={{ scale: 1.05, rotate: -2 }}
               className="group flex items-center gap-3"
             >
@@ -73,21 +78,21 @@ export default function Navbar() {
               <span className="text-3xl font-display font-black tracking-tighter text-black dark:text-white uppercase">
                 Singha<span className="text-vivid-cyan">.</span>
               </span>
-            </motion.a>
+            </motion.button>
 
             {/* Desktop Nav Links */}
             <div className="hidden md:flex items-center gap-6">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.replace('#', '');
                 return (
-                  <a
+                  <button
                     key={link.href}
-                    href={link.href}
+                    onClick={() => scrollTo(link.href.replace('#', ''))}
                     className={`relative text-lg font-black uppercase tracking-tighter transition-all hover:text-electric-pink
                       ${isActive ? 'bg-lime-green px-4 py-1 border-2 border-black -rotate-2' : 'text-black dark:text-white'}`}
                   >
                     {link.label}
-                  </a>
+                  </button>
                 );
               })}
             </div>
@@ -97,13 +102,13 @@ export default function Navbar() {
               <a href="https://github.com/singhatamang123" target="_blank" className="hover:scale-125 transition-transform">
                 <GitHubIcon />
               </a>
-              <motion.a
-                href="#contact"
+              <motion.button
+                onClick={() => scrollTo('contact')}
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 className="px-8 py-3 bg-dopamine-blue text-white font-black uppercase border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
               >
                 Hire Me
-              </motion.a>
+              </motion.button>
             </div>
 
             {/* Mobile Toggle */}
@@ -128,10 +133,10 @@ export default function Navbar() {
           >
             <button onClick={() => setIsMenuOpen(false)} className="absolute top-8 right-8 text-4xl font-black">CLOSE X</button>
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setIsMenuOpen(false)} 
+              <button key={link.href} onClick={() => scrollTo(link.href.replace('#', ''))}
                 className="text-6xl font-display font-black text-black hover:text-white transition-colors uppercase stroke-black">
                 {link.label}
-              </a>
+              </button>
             ))}
           </motion.div>
         )}

@@ -1,18 +1,16 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 
-// Base64 encoded short 'pop' sound (kept exactly the same)
-const POP_SOUND = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAD//wEAAAAA';
+
 
 export default function CustomCursor() {
   const [cursorState, setCursorState] = useState<{ type: string; label: string }>({ type: 'default', label: '' });
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const springConfig = { damping: 25, stiffness: 700, mass: 0.5 }; // Highly responsive, instant feel
+  const springConfig = { damping: 25, stiffness: 700, mass: 0.5 };
 
   const smoothX = useSpring(cursorX, springConfig);
   const smoothY = useSpring(cursorY, springConfig);
@@ -24,8 +22,9 @@ export default function CustomCursor() {
     }
 
     const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      // Subtract 22 (half of 44px) to center — avoids translateX/x conflict
+      cursorX.set(e.clientX - 22);
+      cursorY.set(e.clientY - 22);
     };
 
     const handleHover = (e: MouseEvent) => {
@@ -44,10 +43,21 @@ export default function CustomCursor() {
     };
 
     const handleClick = () => {
-      if (audioRef.current) {
-        audioRef.current.currentTime = 0;
-        audioRef.current.play().catch(() => { });
-      }
+      try {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(4000, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.02);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.02);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.02);
+      } catch { }
     };
 
     window.addEventListener('mousemove', moveCursor);
@@ -63,16 +73,12 @@ export default function CustomCursor() {
 
   return (
     <>
-      <audio ref={audioRef} src={POP_SOUND} preload="auto" />
-
       <motion.div
-        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference items-center justify-center rounded-full overflow-hidden border-2 border-white/80 shadow-[0_0_30px_#ffffff,0_0_60px_#ff00ff]"
+        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-[99999] mix-blend-difference items-center justify-center rounded-full overflow-hidden border-2 border-white/80"
         style={{
-          translateX: smoothX,
-          translateY: smoothY,
-          x: '-50%',
-          y: '-50%',
-          width: 44,   // Slightly bigger for more presence
+          x: smoothX,
+          y: smoothY,
+          width: 44,
           height: 44,
         }}
         animate={{

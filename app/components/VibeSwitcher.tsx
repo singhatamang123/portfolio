@@ -13,6 +13,13 @@ const vibes = [
 
 export default function VibeSwitcher() {
   const [currentVibe, setCurrentVibe] = useState('dopamine');
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-vibe', currentVibe);
@@ -28,7 +35,15 @@ export default function VibeSwitcher() {
   };
 
   return (
-    <div className="fixed bottom-8 left-8 z-[100]">
+    <AnimatePresence>
+    {visible && (
+    <motion.div
+      initial={{ y: 40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: 40, opacity: 0 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      className="fixed bottom-8 left-8 z-[100]"
+    >
       <Magnetic strength={0.4}>
         <motion.button
           onClick={toggleVibe}
@@ -58,6 +73,8 @@ export default function VibeSwitcher() {
           <div className="absolute -top-2 -right-2 w-4 h-4 bg-lime-green border-2 border-black rounded-full animate-pulse" />
         </motion.button>
       </Magnetic>
-    </div>
+    </motion.div>
+    )}
+    </AnimatePresence>
   );
 }
