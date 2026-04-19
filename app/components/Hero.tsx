@@ -132,7 +132,7 @@ export default function Hero() {
                 data-cursor-label="GO! →"
                 whileHover={{ scale: 1.05, rotate: -1 }} 
                 whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-black text-white font-black rounded-none border-4 border-black hover:bg-vivid-cyan hover:text-black transition-all text-lg shadow-[8px_8px_0px_0px_rgba(0,255,255,0.5)] flex items-center"
+                className="px-10 py-5 bg-black text-white font-black rounded-none border-4 border-black md:hover:bg-vivid-cyan md:hover:text-black transition-all text-lg shadow-[8px_8px_0px_0px_rgba(0,255,255,0.5)] flex items-center"
               >
                 VIEW PROJECTS →
               </motion.a>
@@ -187,11 +187,11 @@ export default function Hero() {
               alt="Singha" 
               fill 
               sizes="380px"
-              className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" 
+              className="object-cover object-top grayscale md:group-hover:grayscale-0 transition-all duration-200" 
               priority 
             />
             {/* Overlay */}
-            <div className="absolute inset-0 bg-electric-pink/20 mix-blend-multiply group-hover:opacity-0 transition-opacity" />
+            <div className="absolute inset-0 bg-electric-pink/20 mix-blend-multiply md:group-hover:opacity-0 transition-opacity" />
             
             {/* Badges */}
             <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-2 z-20">
@@ -219,8 +219,10 @@ export default function Hero() {
           <motion.div
             drag
             dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            dragElastic={1}
+            dragElastic={0.8}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             whileHover={{ scale: 1.1, rotate: 5 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 25 }}
             className="absolute top-[15%] left-[5%] pointer-events-auto cursor-grab active:cursor-grabbing bg-vivid-cyan border-4 border-black px-6 py-2 font-black uppercase text-xl rotate-[-15deg] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
           >
             TOP TALENT ⚡️
@@ -229,8 +231,10 @@ export default function Hero() {
           <motion.div
             drag
             dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            dragElastic={1}
+            dragElastic={0.8}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             whileHover={{ scale: 1.1, rotate: -5 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 25 }}
             className="absolute bottom-[20%] left-[40%] pointer-events-auto cursor-grab active:cursor-grabbing bg-electric-pink text-white border-4 border-black px-6 py-2 font-black uppercase text-xl rotate-[10deg] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
           >
             VERIFIED ✓
@@ -239,8 +243,10 @@ export default function Hero() {
           <motion.div
             drag
             dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            dragElastic={1}
+            dragElastic={0.8}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             whileHover={{ scale: 1.1, rotate: 10 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 25 }}
             className="absolute top-[60%] right-[10%] pointer-events-auto cursor-grab active:cursor-grabbing bg-lime-green border-4 border-black px-6 py-2 font-black uppercase text-xl rotate-[5deg] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
           >
             FAST 🚀

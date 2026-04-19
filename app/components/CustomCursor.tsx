@@ -12,12 +12,17 @@ export default function CustomCursor() {
   const cursorY = useMotionValue(-100);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const springConfig = { damping: 20, stiffness: 180 }; // Slightly snappier for energetic feel
+  const springConfig = { damping: 25, stiffness: 700, mass: 0.5 }; // Highly responsive, instant feel
 
   const smoothX = useSpring(cursorX, springConfig);
   const smoothY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
+    // Disable on touch devices
+    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+      return;
+    }
+
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -61,7 +66,7 @@ export default function CustomCursor() {
       <audio ref={audioRef} src={POP_SOUND} preload="auto" />
 
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference flex items-center justify-center rounded-full overflow-hidden border-2 border-white/80 shadow-[0_0_30px_#ffffff,0_0_60px_#ff00ff]"
+        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference items-center justify-center rounded-full overflow-hidden border-2 border-white/80 shadow-[0_0_30px_#ffffff,0_0_60px_#ff00ff]"
         style={{
           translateX: smoothX,
           translateY: smoothY,
@@ -83,7 +88,7 @@ export default function CustomCursor() {
             ? '0 0 40px #FF00FF, 0 0 80px #00FFFF'
             : '0 0 25px #FF00AA',
         }}
-        transition={{ type: 'spring', bounce: 0.3 }}
+        transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.5 }}
       >
         {/* Inner chaotic layer for maximalist texture */}
         <motion.div

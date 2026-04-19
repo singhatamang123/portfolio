@@ -13,7 +13,7 @@ export default function Magnetic({ children, strength = 0.5 }: Props) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+    if (!ref.current || (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches)) return;
     const { clientX, clientY } = e;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
     const centerX = left + width / 2;
@@ -35,7 +35,7 @@ export default function Magnetic({ children, strength = 0.5 }: Props) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={{ x: position.x, y: position.y }}
-      transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25, mass: 0.1 }}
     >
       {children}
     </motion.div>

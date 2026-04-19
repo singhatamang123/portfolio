@@ -94,6 +94,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0, rotate: 0 }}
               viewport={{ once: true }}
               whileHover={{ y: -10, rotate: i % 2 === 0 ? 2 : -2 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 25 }}
               onClick={() => !project.comingSoon && setSelectedProject(project)}
               data-cursor="view"
               data-cursor-label="CASE STUDY"
@@ -104,7 +105,7 @@ export default function Projects() {
                 {project.category}
               </div>
 
-              <div className={`h-48 relative border-b-4 border-black bg-gradient-to-br ${project.color} flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500`}>
+              <div className={`h-48 relative border-b-4 border-black bg-gradient-to-br ${project.color} flex items-center justify-center text-7xl md:group-hover:scale-105 transition-transform duration-200`}>
                 {project.icon}
               </div>
 

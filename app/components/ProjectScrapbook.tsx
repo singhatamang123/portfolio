@@ -43,6 +43,7 @@ export default function ProjectScrapbook({ project, onClose }: Props) {
           initial={{ scale: 0.9, y: 100, rotate: -2 }}
           animate={{ scale: 1, y: 0, rotate: 0 }}
           exit={{ scale: 0.9, y: 100, rotate: 2 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
           className="relative w-full max-w-6xl h-[85vh] bg-[#fdfaf1] border-8 border-black shadow-[20px_20px_0px_0px_rgba(255,255,255,0.1)] overflow-hidden flex flex-col md:flex-row bg-grain"
         >
           {/* Close Button */}
@@ -60,6 +61,9 @@ export default function ProjectScrapbook({ project, onClose }: Props) {
               <motion.div 
                 drag
                 dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                dragElastic={0.8}
+                dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
                 className="absolute top-0 left-0 w-3/4 aspect-video bg-white border-4 border-black shadow-lg rotate-[-3deg] z-10 p-2 cursor-grab active:cursor-grabbing"
               >
                 <div className="relative w-full h-full bg-zinc-100 overflow-hidden">
@@ -84,6 +88,9 @@ export default function ProjectScrapbook({ project, onClose }: Props) {
               <motion.div 
                 drag
                 dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                dragElastic={0.8}
+                dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
                 className="absolute bottom-10 right-0 w-1/2 aspect-square bg-vivid-cyan border-4 border-black shadow-lg rotate-[5deg] z-20 flex items-center justify-center text-8xl cursor-grab active:cursor-grabbing"
               >
                 {project.icon}

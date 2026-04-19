@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Info';
@@ -10,6 +11,7 @@ export default function Home() {
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white overflow-hidden bg-grain">
       <Navbar />
       <Hero />
+      <About />
       <Skills />
       <Projects />
       <Contact />

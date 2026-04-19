@@ -62,7 +62,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.05;
+  opacity: var(--current-grain-opacity, 0.05);
   pointer-events: none;
   z-index: 50;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
@@ -104,4 +104,44 @@ h1, h2, h3 {
   * {
     cursor: none !important;
   }
+}
+
+/* VIBES */
+html {
+  transition: filter 0.7s ease, background-color 0.7s ease;
+}
+
+html[data-vibe="cyberpunk"] {
+  filter: invert(1) hue-rotate(180deg) contrast(1.1) brightness(0.9);
+  --grain-opacity: 0.15;
+}
+
+html[data-vibe="cyberpunk"] img, 
+html[data-vibe="cyberpunk"] video {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+html[data-vibe="retro"] {
+  filter: sepia(0.8) contrast(1.2) saturate(0.8) hue-rotate(-10deg);
+  --grain-opacity: 0.12;
+}
+
+html[data-vibe="retro"] img {
+  filter: sepia(0.3) contrast(1.1);
+}
+
+html[data-vibe="calm"] {
+  --grain-opacity: 0 !important;
+  filter: grayscale(1) !important;
+}
+
+html[data-vibe="calm"] * {
+  animation: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+html[data-vibe="calm"] .layered-card:hover {
+  transform: none !important;
+  box-shadow: none !important;
 }
