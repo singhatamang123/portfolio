@@ -7,6 +7,18 @@ import Magnetic from './Magnetic';
 
 const projects = [
   {
+    title: 'Voting System',
+    description:
+      'A secure voting application for Alchemist School featuring a 4-vote logic system, persistent state management, and an efficient multi-voter interface.',
+    tags: ['Next.js', 'SQLite', 'Tailwind CSS'],
+    github: 'https://github.com/singhatamang123/votingsystem',
+    live: 'https://votingsystem-l7in.vercel.app/',
+    category: 'Web App',
+    color: 'from-dopamine-blue to-royal-purple',
+    border: 'hover:border-dopamine-blue',
+    icon: '🗳️',
+  },
+  {
     title: 'Galli Maps',
     description:
       'A location-based service application with open-source map integration. Features real-time distance sorting and offline capabilities.',

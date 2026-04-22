@@ -86,7 +86,7 @@ export default function Hero() {
             className="inline-flex items-center gap-3 px-6 py-3 border-4 border-black bg-lime-green text-black font-black uppercase text-xs tracking-tighter shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] mb-10"
           >
             <span className="w-3 h-3 bg-black animate-ping" />
-            Available for freelance
+            <span>Available&nbsp;&nbsp;&nbsp;for&nbsp;&nbsp;&nbsp;freelance</span>
           </motion.div>
 
           <motion.h1
